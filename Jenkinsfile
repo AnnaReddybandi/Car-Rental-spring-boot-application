@@ -1,47 +1,46 @@
 pipeline {
     agent any
-    environment {
-        MVN_HOME = '/usr/share/maven' // Adjust as per your Jenkins setup
-        JAVA_HOME = '/usr/lib/jvm/java-11-openjdk' // Adjust as per your Jenkins setup
-    }
 
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'master', url: 'https://github.com/AnnaReddybandi/Car-Rental-spring-boot-application.git'
+                checkout scm
             }
         }
 
         stage('Build') {
             steps {
-                script {
-                    sh "${MVN_HOME}/bin/mvn clean install -DskipTests"
+                dir('CarRentalApplication') {
+                    withMaven(maven: 'Maven') {
+                        sh 'mvn clean install -DskipTests'
+                    }
                 }
             }
         }
 
         stage('Test') {
             steps {
-                script {
-                    sh "${MVN_HOME}/bin/mvn test"
+                dir('CarRentalApplication') {
+                    withMaven(maven: 'Maven') {
+                        sh 'mvn test'
+                    }
                 }
             }
         }
 
         stage('Package') {
             steps {
-                script {
-                    sh "${MVN_HOME}/bin/mvn package"
+                dir('CarRentalApplication') {
+                    withMaven(maven: 'Maven') {
+                        sh 'mvn package'
+                    }
                 }
             }
         }
 
         stage('Deploy') {
             steps {
-                script {
-                    echo "Deploying to your environment..."
-                    // Add your deployment scripts here (e.g., Docker, Kubernetes)
-                }
+                echo 'Deployment stage - add scripts for Docker/K8s deployment here'
             }
         }
     }
@@ -55,4 +54,3 @@ pipeline {
         }
     }
 }
-
