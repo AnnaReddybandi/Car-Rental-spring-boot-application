@@ -12,6 +12,7 @@ import com.spring.helper.AdminResponsiveStructure;
 import com.spring.model.Admin;
 import com.spring.repository.AdminRepository;
 
+//This contaoller class is Admin
 @RestController
 public class AdminController {
 	
